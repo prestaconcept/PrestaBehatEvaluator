@@ -3,6 +3,21 @@ parameters:
 		-
 			message: "#^Generator expects value type array\\{bool\\|float\\|int\\|string, bool\\|float\\|int\\|string\\}, array\\{array\\|object\\|null, array\\|object\\|null\\} given\\.$#"
 			count: 1
+			path: tests/Unit/Adapter/ConstantAdapterTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$excludedTypes of static method Presta\\\\BehatEvaluator\\\\Tests\\\\Unit\\\\Adapter\\\\ConstantAdapterTest\\:\\:unsupportedNonScalarValues\\(\\) expects array\\<int, 'array'\\|'null'\\|'object'\\>, array\\<int, 'array'\\|'bool'\\|'float'\\|'int'\\|'null'\\|'object'\\|'string'\\> given\\.$#"
+			count: 1
+			path: tests/Unit/Adapter/ConstantAdapterTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$excludedTypes of static method Presta\\\\BehatEvaluator\\\\Tests\\\\Unit\\\\Adapter\\\\ConstantAdapterTest\\:\\:unsupportedScalarValues\\(\\) expects array\\<int, 'bool'\\|'float'\\|'int'\\|'string'\\>, array\\<int, 'array'\\|'bool'\\|'float'\\|'int'\\|'null'\\|'object'\\|'string'\\> given\\.$#"
+			count: 1
+			path: tests/Unit/Adapter/ConstantAdapterTest.php
+
+		-
+			message: "#^Generator expects value type array\\{bool\\|float\\|int\\|string, bool\\|float\\|int\\|string\\}, array\\{array\\|object\\|null, array\\|object\\|null\\} given\\.$#"
+			count: 1
 			path: tests/Unit/Adapter/ScalarAdapterTest.php
 
 		-
