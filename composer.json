@@ -26,11 +26,15 @@
     },
     "autoload-dev": {
         "psr-4": {
+            "Presta\\BehatEvaluator\\Tests\\Resources\\": "tests/Resources/",
             "Presta\\BehatEvaluator\\Tests\\Unit\\": "tests/Unit/"
         }
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "symfony/runtime": true
+        }
     },
     "minimum-stability": "stable"
 }
