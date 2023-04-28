@@ -1,0 +1,36 @@
+{
+    "name": "presta/behat-evaluator",
+    "description": "The PrestaBehatEvaluator library leverages adapters to evaluate and transform input values into more complex objects.",
+    "keywords": ["symfony", "behat", "evaluate", "parser", "provider"],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Benoit Jouhaud",
+            "email": "bjouhaud@prestaconcept.net"
+        }
+    ],
+    "require": {
+        "php": "^8.1"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^1.10",
+        "phpunit/phpunit": "^9.6",
+        "squizlabs/php_codesniffer": "^3.7",
+        "symfony/phpunit-bridge": "^6.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Presta\\BehatEvaluator\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Presta\\BehatEvaluator\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "stable"
+}
