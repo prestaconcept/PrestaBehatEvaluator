@@ -6,8 +6,8 @@ namespace Presta\BehatEvaluator\Tests\Unit\Adapter;
 
 use PHPUnit\Framework\TestCase;
 use Presta\BehatEvaluator\Adapter\ConstantAdapter;
-use Presta\BehatEvaluator\ExpressionLanguage\ExpressionLanguage;
 use Presta\BehatEvaluator\Tests\Resources\ConstantHolder;
+use Presta\BehatEvaluator\Tests\Resources\ExpressionLanguageFactory;
 use Presta\BehatEvaluator\Tests\Resources\UnsupportedValuesProvider;
 use Symfony\Component\ExpressionLanguage\SyntaxError;
 
@@ -28,7 +28,7 @@ final class ConstantAdapterTest extends TestCase
             }
         }
 
-        $evaluate = new ConstantAdapter(new ExpressionLanguage());
+        $evaluate = new ConstantAdapter(ExpressionLanguageFactory::create());
         $value = $evaluate($value);
 
         if ($expected instanceof \Throwable) {

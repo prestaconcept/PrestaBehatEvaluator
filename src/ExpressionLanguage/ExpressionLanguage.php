@@ -9,10 +9,10 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage as BaseExpressionLan
 
 final class ExpressionLanguage extends BaseExpressionLanguage
 {
-    public function __construct(CacheItemPoolInterface $cache = null, array $providers = [])
+    public function __construct(string $culture, CacheItemPoolInterface $cache = null, array $providers = [])
     {
         $providers = [
-            new BehatExpressionLanguageProvider(),
+            new BehatExpressionLanguageProvider($culture),
             ...$providers,
         ];
 
