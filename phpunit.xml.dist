@@ -3,12 +3,13 @@
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
          colors="true"
-         bootstrap="vendor/autoload.php"
+         bootstrap="tests/bootstrap.php"
          testdox="true"
 >
     <php>
         <ini name="display_errors" value="1" />
         <ini name="error_reporting" value="-1" />
+        <env name="KERNEL_CLASS" value="Presta\BehatEvaluator\Tests\Application\Kernel" />
         <server name="SHELL_VERBOSITY" value="-1" />
         <server name="SYMFONY_DEPRECATIONS_HELPER" value="max[direct]=0" />
         <server name="SYMFONY_PHPUNIT_REMOVE" value="" />
@@ -16,6 +17,9 @@
     </php>
 
     <testsuites>
+        <testsuite name="Integration tests">
+            <directory>tests/Integration</directory>
+        </testsuite>
         <testsuite name="Unit tests">
             <directory>tests/Unit</directory>
         </testsuite>

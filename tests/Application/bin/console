@@ -1,0 +1,15 @@
+#!/usr/bin/env php
+<?php
+
+use Presta\BehatEvaluator\Tests\Application\Kernel;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+
+$_ENV['APP_RUNTIME_OPTIONS'] = ['project_dir' => dirname(__DIR__)];
+
+require_once dirname(__DIR__) . '/../../vendor/autoload_runtime.php';
+
+return function (array $context) {
+    $kernel = new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);
+
+    return new Application($kernel);
+};

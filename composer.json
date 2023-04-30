@@ -13,13 +13,25 @@
     "require": {
         "php": "^8.1",
         "ext-intl": "*",
-        "symfony/expression-language": "^5.0|^6.0"
+        "doctrine/collections": "^1.0|^2.0",
+        "doctrine/inflector": "^2.0",
+        "symfony/expression-language": "^5.0|^6.0",
+        "zenstruck/foundry": "^1.0"
     },
     "require-dev": {
+        "ext-pdo_sqlite": "*",
+        "doctrine/doctrine-bundle": "^2.9",
+        "doctrine/orm": "^2.15",
         "phpstan/phpstan": "^1.10",
         "phpunit/phpunit": "^9.6",
         "squizlabs/php_codesniffer": "^3.7",
-        "symfony/phpunit-bridge": "^6.2"
+        "symfony/console": "^6.2",
+        "symfony/dotenv": "^6.2",
+        "symfony/framework-bundle": "^6.2",
+        "symfony/phpunit-bridge": "^6.2",
+        "symfony/runtime": "^6.2",
+        "symfony/var-dumper": "^6.2",
+        "symfony/yaml": "^6.2"
     },
     "autoload": {
         "psr-4": {
@@ -28,6 +40,9 @@
     },
     "autoload-dev": {
         "psr-4": {
+            "Presta\\BehatEvaluator\\Tests\\Application\\": "tests/Application/src/",
+            "Presta\\BehatEvaluator\\Tests\\Extension\\": "tests/Extension/",
+            "Presta\\BehatEvaluator\\Tests\\Integration\\": "tests/Integration/",
             "Presta\\BehatEvaluator\\Tests\\Resources\\": "tests/Resources/",
             "Presta\\BehatEvaluator\\Tests\\Unit\\": "tests/Unit/"
         }
