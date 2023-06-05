@@ -23,4 +23,24 @@ final class Evaluator implements AdapterInterface
 
         return $value;
     }
+
+    public static function evaluate(mixed $value, EvaluatorBuilder $builder = new EvaluatorBuilder()): mixed
+    {
+        $evaluate = $builder->build();
+
+        return $evaluate($value);
+    }
+
+    /**
+     * @param list<mixed> $values
+     *
+     * @return list<mixed>
+     */
+    public static function evaluateMany(array $values, EvaluatorBuilder $builder = new EvaluatorBuilder()): array
+    {
+        return array_map(
+            static fn (mixed $value): mixed => self::evaluate($value, $builder),
+            $values,
+        );
+    }
 }

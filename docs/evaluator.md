@@ -23,8 +23,10 @@ $value = $evaluate('any value');
 
 ---
 
-You may return to the [README][2] or read the [adapters][3] guides.
+You may return to the [README][2] or read the [behat][3], the [evaluator builder][4] or the [adapters][5] guides.
 
 [1]: ../src/Evaluator.php
 [2]: ../README.md
-[3]: ./adapters/
+[3]: ./behat.md
+[4]: ./evaluator_builder.md
+[5]: ./adapters/

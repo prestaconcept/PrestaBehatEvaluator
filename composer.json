@@ -20,6 +20,7 @@
     },
     "require-dev": {
         "ext-pdo_sqlite": "*",
+        "behat/behat": "^3.13",
         "doctrine/doctrine-bundle": "^2.9",
         "doctrine/orm": "^2.15",
         "phpstan/phpstan": "^1.10",
@@ -41,6 +42,7 @@
     "autoload-dev": {
         "psr-4": {
             "Presta\\BehatEvaluator\\Tests\\Application\\": "tests/Application/src/",
+            "Presta\\BehatEvaluator\\Tests\\Behat\\": "tests/Behat/",
             "Presta\\BehatEvaluator\\Tests\\Extension\\": "tests/Extension/",
             "Presta\\BehatEvaluator\\Tests\\Integration\\": "tests/Integration/",
             "Presta\\BehatEvaluator\\Tests\\Resources\\": "tests/Resources/",
