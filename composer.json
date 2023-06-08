@@ -26,7 +26,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Presta\\BehatEvaluator\\Tests\\": "tests/"
+            "Presta\\BehatEvaluator\\Tests\\Unit\\": "tests/Unit/"
         }
     },
     "config": {
