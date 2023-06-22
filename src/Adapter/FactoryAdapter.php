@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Presta\BehatEvaluator\Adapter;
 
 use Presta\BehatEvaluator\ExpressionLanguage\ExpressionLanguage;
+use Presta\BehatEvaluator\ExpressionLanguage\ExpressionMatcher\FunctionExpressionMatcher;
 
 /**
  * @example <factory("user", {"email": "john.doe@prestaconcept.net"})>
@@ -26,9 +27,9 @@ final class FactoryAdapter implements AdapterInterface
             return $value;
         }
 
-        preg_match_all("/<(?<expression>factory\([^)]*\))>/", $value, $matches);
+        $match = new FunctionExpressionMatcher();
 
-        foreach ($matches['expression'] as $expression) {
+        foreach ($match('factory', $value) as $expression) {
             $evaluated = $this->expressionLanguage->evaluate($expression);
             if ("<$expression>" === $value) {
                 return $evaluated;

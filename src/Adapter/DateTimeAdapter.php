@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Presta\BehatEvaluator\Adapter;
 
 use Presta\BehatEvaluator\ExpressionLanguage\ExpressionLanguage;
+use Presta\BehatEvaluator\ExpressionLanguage\ExpressionMatcher\FunctionExpressionMatcher;
 
 /**
  * @example <datetime()>
@@ -31,9 +32,9 @@ final class DateTimeAdapter implements AdapterInterface
             return $value;
         }
 
-        preg_match_all("/<(?<expression>datetime(_immutable)?\([^)]*\))>/", $value, $matches);
+        $match = new FunctionExpressionMatcher();
 
-        foreach ($matches['expression'] as $expression) {
+        foreach ($match('datetime(_immutable)?', $value) as $expression) {
             // surround named parameters arguments by double quotes
             // so that the named parameter part is not interpreted by the expression language
             // ex. 'format: "Y-m-d"' will be transformed to '"format: \"Y-m-d\""'

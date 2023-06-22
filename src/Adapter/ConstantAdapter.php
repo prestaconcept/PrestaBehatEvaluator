@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Presta\BehatEvaluator\Adapter;
 
 use Presta\BehatEvaluator\ExpressionLanguage\ExpressionLanguage;
+use Presta\BehatEvaluator\ExpressionLanguage\ExpressionMatcher\FunctionExpressionMatcher;
 
 final class ConstantAdapter implements AdapterInterface
 {
@@ -18,9 +19,9 @@ final class ConstantAdapter implements AdapterInterface
             return $value;
         }
 
-        preg_match_all('/<(?<expression>constant\([^)]+\))>/', $value, $matches);
+        $match = new FunctionExpressionMatcher();
 
-        foreach ($matches['expression'] as $expression) {
+        foreach ($match('constant', $value) as $expression) {
             $evaluated = $this->expressionLanguage->evaluate($expression);
 
             // the evaluation did not end up with a transformation
