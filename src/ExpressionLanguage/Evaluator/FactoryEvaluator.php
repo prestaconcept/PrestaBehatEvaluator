@@ -63,8 +63,14 @@ final class FactoryEvaluator
             return PropertyAccess::createPropertyAccessor()->getValue($value->object(), $accessor);
         }
 
-        if (\is_array($value)) {
-            $value = new ArrayCollection(array_map(static fn (Proxy $proxy): object => $proxy->object(), $value));
+        switch (true) {
+            case \is_array($value):
+                $value = new ArrayCollection(array_map(static fn (Proxy $proxy): object => $proxy->object(), $value));
+                break;
+
+            case $value instanceof Proxy:
+                $value->disableAutoRefresh();
+                break;
         }
 
         return $value;

@@ -56,7 +56,7 @@ final class FactoryAdapterTest extends KernelTestCase
     {
         yield 'a string containing only a factory expression with a factory name and an array of attributes'
             . ' should find and return the relevant object proxy' => [
-            static fn () => UserFactory::find(['firstname' => 'John']),
+            static fn () => UserFactory::find(['firstname' => 'John'])->disableAutoRefresh(),
             '<factory("user", {"firstname": "John"})>',
         ];
         yield 'a string containing only a factory expression'
