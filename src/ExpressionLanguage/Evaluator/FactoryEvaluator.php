@@ -9,6 +9,7 @@ use Presta\BehatEvaluator\Exception\UnexpectedTypeException;
 use Presta\BehatEvaluator\ExpressionLanguage\ArgumentGuesser\Factory\AccessorArgumentGuesser;
 use Presta\BehatEvaluator\ExpressionLanguage\ArgumentGuesser\Factory\AttributesArgumentGuesser;
 use Presta\BehatEvaluator\ExpressionLanguage\ArgumentGuesser\Factory\MethodArgumentGuesser;
+use Presta\BehatEvaluator\ExpressionLanguage\ArgumentGuesser\Factory\MinArgumentGuesser;
 use Presta\BehatEvaluator\Foundry\FactoryClassFactory;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Zenstruck\Foundry\Proxy;
@@ -22,22 +23,36 @@ final class FactoryEvaluator
     /**
      * @param array<string, mixed> $arguments
      * @param string|array<string, mixed>|null $method
+     * @param string|array<string, mixed>|null $min
      * @param string|array<string, mixed>|null $attributes
      */
     public function __invoke(
         array $arguments,
         string $name,
         string|array|null $method = null,
+        string|array|null $min = null,
         string|array|null $attributes = null,
         string|null $accessor = null,
     ): mixed {
         $originalMethod = $method;
+        $originalMin = $min;
         $originalAttributes = $attributes;
         $originalAccessor = $accessor;
 
-        $method = (new MethodArgumentGuesser())($originalMethod, $originalAttributes, $originalAccessor);
-        $attributes = (new AttributesArgumentGuesser())($originalMethod, $originalAttributes, $originalAccessor);
-        $accessor = (new AccessorArgumentGuesser())($originalMethod, $originalAttributes, $originalAccessor);
+        $method = (new MethodArgumentGuesser())($originalMethod, $originalMin, $originalAttributes, $originalAccessor);
+        $min = (new MinArgumentGuesser())($originalMethod, $originalMin, $originalAttributes, $originalAccessor);
+        $attributes = (new AttributesArgumentGuesser())(
+            $originalMethod,
+            $originalMin,
+            $originalAttributes,
+            $originalAccessor,
+        );
+        $accessor = (new AccessorArgumentGuesser())(
+            $originalMethod,
+            $originalMin,
+            $originalAttributes,
+            $originalAccessor,
+        );
 
         $factoryClass = $this->factoryClassFactory->fromName($name);
 
@@ -51,7 +66,9 @@ final class FactoryEvaluator
         }
 
         $value = match (true) {
-            \is_array($attributes) => call_user_func($callable, $attributes),
+            \is_numeric($min) && \is_array($attributes) => call_user_func($callable, $min, $attributes),
+            \is_numeric($min) && !\is_array($attributes) => call_user_func($callable, $min),
+            !\is_numeric($min) && \is_array($attributes) => call_user_func($callable, $attributes),
             default => call_user_func($callable),
         };
 

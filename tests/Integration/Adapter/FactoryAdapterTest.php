@@ -7,6 +7,7 @@ namespace Presta\BehatEvaluator\Tests\Integration\Adapter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Presta\BehatEvaluator\Adapter\FactoryAdapter;
 use Presta\BehatEvaluator\Exception\UnexpectedTypeException;
+use Presta\BehatEvaluator\Tests\Application\Entity\User;
 use Presta\BehatEvaluator\Tests\Application\Foundry\Factory\UserFactory;
 use Presta\BehatEvaluator\Tests\Integration\KernelTestCase;
 use Presta\BehatEvaluator\Tests\Resources\ExpressionLanguageFactory;
@@ -46,6 +47,14 @@ final class FactoryAdapterTest extends KernelTestCase
             $expected = $expected();
         }
 
+        // ModelFactory::randomSet() does not return sorted entities
+        if ($value instanceof ArrayCollection) {
+            $data = $value->toArray();
+            usort($data, static fn (User $left, User $right): int => $left->getId() <=> $right->getId());
+
+            $value = new ArrayCollection($data);
+        }
+
         self::assertEquals($expected, $value);
     }
 
@@ -80,6 +89,27 @@ final class FactoryAdapterTest extends KernelTestCase
             . ' should return the relevant result' => [
             2,
             '<factory("user", "count")>',
+        ];
+        yield 'a string containing a factory expression with a factory name, the "randomSet" function'
+            . ' and an integer as third parameter should return the relevant object proxy(s)' => [
+            static fn () => new ArrayCollection(
+                array_map(
+                    static fn (Proxy $proxy): object => $proxy->object(),
+                    UserFactory::all(),
+                ),
+            ),
+            '<factory("user", "randomSet", 2)>',
+        ];
+        yield 'a string containing a factory expression with a factory name, the "randomSet" function,'
+            . ' an integer as third parameter and an array of attributes'
+            . ' should return the relevant object proxy(s)' => [
+            static fn () => new ArrayCollection(
+                array_map(
+                    static fn (Proxy $proxy): object => $proxy->object(),
+                    UserFactory::findBy(['firstname' => 'John']),
+                ),
+            ),
+            '<factory("user", "randomSet", 1, {"firstname": "John"})>',
         ];
         yield 'a string containing a factory expression'
             . ' should return the string after evaluating the factory expression' => [

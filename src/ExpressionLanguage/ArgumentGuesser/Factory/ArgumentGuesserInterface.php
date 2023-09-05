@@ -11,7 +11,13 @@ interface ArgumentGuesserInterface
 {
     /**
      * @param FactoryAttributes|string|null $method
+     * @param FactoryAttributes|string|null $min
      * @param FactoryAttributes|string|null $attributes
      */
-    public function __invoke(string|array|null $method, string|array|null $attributes, string|null $accessor): mixed;
+    public function __invoke(
+        string|array|null $method,
+        string|array|null $min,
+        string|array|null $attributes,
+        string|null $accessor,
+    ): mixed;
 }

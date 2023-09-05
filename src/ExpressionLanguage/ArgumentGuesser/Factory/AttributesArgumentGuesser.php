@@ -11,11 +11,16 @@ final class AttributesArgumentGuesser implements ArgumentGuesserInterface
      */
     public function __invoke(
         array|string|null $method,
+        array|string|null $min,
         array|string|null $attributes,
         string|null $accessor,
     ): array|null {
         if (\is_array($method)) {
             return $method;
+        }
+
+        if (\is_array($min)) {
+            return $min;
         }
 
         if (\is_array($attributes)) {

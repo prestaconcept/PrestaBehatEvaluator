@@ -21,6 +21,11 @@ parameters:
 			path: tests/Integration/Adapter/FactoryAdapterTest.php
 
 		-
+			message: "#^Parameter \\#2 \\$callback of function usort expects callable\\(mixed, mixed\\)\\: int, Closure\\(Presta\\\\BehatEvaluator\\\\Tests\\\\Application\\\\Entity\\\\User, Presta\\\\BehatEvaluator\\\\Tests\\\\Application\\\\Entity\\\\User\\)\\: int\\<\\-1, 1\\> given\\.$#"
+			count: 1
+			path: tests/Integration/Adapter/FactoryAdapterTest.php
+
+		-
 			message: "#^Generator expects value type array\\{bool\\|float\\|int\\|string, bool\\|float\\|int\\|string\\}, array\\{array\\|object\\|null, array\\|object\\|null\\} given\\.$#"
 			count: 1
 			path: tests/Unit/Adapter/ConstantAdapterTest.php
