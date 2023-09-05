@@ -10,6 +10,7 @@ use Presta\BehatEvaluator\Adapter\AdapterInterface;
 use Presta\BehatEvaluator\Adapter\ConstantAdapter;
 use Presta\BehatEvaluator\Adapter\DateTimeAdapter;
 use Presta\BehatEvaluator\Adapter\FactoryAdapter;
+use Presta\BehatEvaluator\Adapter\JsonAdapter;
 use Presta\BehatEvaluator\Adapter\NthAdapter;
 use Presta\BehatEvaluator\Adapter\ScalarAdapter;
 use Presta\BehatEvaluator\Adapter\UnescapeAdapter;
@@ -74,6 +75,7 @@ final class EvaluatorBuilder
                 new ConstantAdapter($expressionLanguage),
                 new DateTimeAdapter($expressionLanguage),
                 new FactoryAdapter($expressionLanguage),
+                new JsonAdapter(),
                 new NthAdapter(),
                 new ScalarAdapter(),
                 new UnescapeAdapter(),
