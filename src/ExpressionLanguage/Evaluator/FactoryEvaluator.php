@@ -60,6 +60,8 @@ final class FactoryEvaluator
                 throw new UnexpectedTypeException($value, Proxy::class);
             }
 
+            $value->disableAutoRefresh();
+
             return PropertyAccess::createPropertyAccessor()->getValue($value->object(), $accessor);
         }
 
