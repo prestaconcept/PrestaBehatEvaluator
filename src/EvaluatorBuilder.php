@@ -9,6 +9,7 @@ use Doctrine\Inflector\InflectorFactory;
 use Presta\BehatEvaluator\Adapter\AdapterInterface;
 use Presta\BehatEvaluator\Adapter\ConstantAdapter;
 use Presta\BehatEvaluator\Adapter\DateTimeAdapter;
+use Presta\BehatEvaluator\Adapter\EnumAdapter;
 use Presta\BehatEvaluator\Adapter\FactoryAdapter;
 use Presta\BehatEvaluator\Adapter\JsonAdapter;
 use Presta\BehatEvaluator\Adapter\NthAdapter;
@@ -74,6 +75,7 @@ final class EvaluatorBuilder
             [
                 new ConstantAdapter($expressionLanguage),
                 new DateTimeAdapter($expressionLanguage),
+                new EnumAdapter($expressionLanguage),
                 new FactoryAdapter($expressionLanguage),
                 new JsonAdapter(),
                 new NthAdapter(),

@@ -22,22 +22,39 @@ final class EnumAdapter implements AdapterInterface
         $match = new FunctionExpressionMatcher();
 
         foreach ($match('enum', $value) as $expression) {
-            $evaluated = $this->expressionLanguage->evaluate($expression);
+            try {
+                $evaluated = $this->expressionLanguage->evaluate($expression);
+            } catch (\Throwable $exception) {
+                if (\str_ends_with($exception->getMessage(), '" is not a valid enum.')) {
+                    $value = "<$expression>";
 
-            // the evaluation did not end up with a transformation
-            preg_match('/enum\([\'"](?<value>[^)]+)[\'"]\)/', $expression, $expressionMatches);
-            if (\is_string($evaluated) && $expressionMatches['value'] === addslashes($evaluated)) {
-                continue;
+                    continue;
+                }
+
+                throw $exception;
             }
 
-            if (!$evaluated instanceof \BackedEnum) {
-                $type = get_debug_type($evaluated);
+            if ($evaluated instanceof \BackedEnum) {
+                if ($value === "<$expression>") {
+                    return $evaluated;
+                }
 
-                throw new \RuntimeException("The evaluated enum of type \"$type\" is not a backed enum.");
+                $evaluated = $evaluated->value;
+            }
+
+            if ($evaluated instanceof \UnitEnum) {
+                if ($value === "<$expression>") {
+                    return $evaluated;
+                }
+
+                throw new \RuntimeException("You can not get the \"value\" of a UnitEnum.");
             }
 
             // the expression is included in a larger string
-            $value = str_replace("<$expression>", (string)$evaluated->value, $value);
+
+            \assert(\is_int($evaluated) || \is_string($evaluated));
+
+            $value = str_replace("<$expression>", (string)$evaluated, $value);
         }
 
         return match (\is_numeric($value)) {
