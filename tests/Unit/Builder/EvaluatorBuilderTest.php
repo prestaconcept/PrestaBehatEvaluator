@@ -44,7 +44,7 @@ final class EvaluatorBuilderTest extends TestCase
         $builder->withCulture($culture);
         $builder->withFactoryNamespace($factoryNamespace);
         $builder->withInflector($inflector);
-        $builder->registerAdapter($adapter);
+        $builder->registerAdapterFactory($adapter::class, static fn(): AdapterInterface => $adapter);
 
         $evaluate = $builder->build();
 

@@ -21,9 +21,9 @@ use Presta\BehatEvaluator\Foundry\FactoryClassFactory;
 final class EvaluatorBuilder
 {
     /**
-     * @var list<AdapterInterface>
+     * @var array<class-string<AdapterInterface>, \Closure(ExpressionLanguage): AdapterInterface>
      */
-    private array $adapters = [];
+    private array $adapterFactories = [];
 
     private string $culture = 'en_US';
 
@@ -34,11 +34,61 @@ final class EvaluatorBuilder
     public function __construct()
     {
         $this->inflector = InflectorFactory::create()->build();
+        $this->registerAdapterFactory(
+            ConstantAdapter::class,
+            static fn(ExpressionLanguage $expressionLanguage): AdapterInterface
+                => new ConstantAdapter($expressionLanguage),
+        );
+        $this->registerAdapterFactory(
+            DateTimeAdapter::class,
+            static fn(ExpressionLanguage $expressionLanguage): AdapterInterface
+                => new DateTimeAdapter($expressionLanguage),
+        );
+        $this->registerAdapterFactory(
+            EnumAdapter::class,
+            static fn(ExpressionLanguage $expressionLanguage): AdapterInterface
+                => new EnumAdapter($expressionLanguage),
+        );
+        $this->registerAdapterFactory(
+            FactoryAdapter::class,
+            static fn(ExpressionLanguage $expressionLanguage): AdapterInterface
+                => new FactoryAdapter($expressionLanguage),
+        );
+        $this->registerAdapterFactory(JsonAdapter::class, static fn(): AdapterInterface => new JsonAdapter());
+        $this->registerAdapterFactory(NthAdapter::class, static fn(): AdapterInterface => new NthAdapter());
+        $this->registerAdapterFactory(ScalarAdapter::class, static fn(): AdapterInterface => new ScalarAdapter());
+        $this->registerAdapterFactory(UnescapeAdapter::class, static fn(): AdapterInterface => new UnescapeAdapter());
     }
 
+    /**
+     * @deprecated
+     *
+     * Use @see self::registerAdapterFactory() instead.
+     */
     public function registerAdapter(AdapterInterface $adapter): self
     {
-        $this->adapters[] = $adapter;
+        $this->adapterFactories[$adapter::class] = static fn(): AdapterInterface => $adapter;
+
+        return $this;
+    }
+
+    /**
+     * @param class-string<AdapterInterface> $class
+     * @param \Closure(ExpressionLanguage): AdapterInterface $factory
+     */
+    public function registerAdapterFactory(string $class, \Closure $factory): self
+    {
+        $this->adapterFactories[$class] = $factory;
+
+        return $this;
+    }
+
+    /**
+     * @param class-string<AdapterInterface> $class
+     */
+    public function unregisterAdapterFactory(string $class): self
+    {
+        unset($this->adapterFactories[$class]);
 
         return $this;
     }
@@ -72,17 +122,12 @@ final class EvaluatorBuilder
         );
 
         return new Evaluator(
-            [
-                new ConstantAdapter($expressionLanguage),
-                new DateTimeAdapter($expressionLanguage),
-                new EnumAdapter($expressionLanguage),
-                new FactoryAdapter($expressionLanguage),
-                new JsonAdapter(),
-                new NthAdapter(),
-                new ScalarAdapter(),
-                new UnescapeAdapter(),
-                ...$this->adapters,
-            ],
+            array_values(
+                array_map(
+                    static fn(\Closure $factory): AdapterInterface => $factory($expressionLanguage),
+                    $this->adapterFactories,
+                ),
+            ),
         );
     }
 }
