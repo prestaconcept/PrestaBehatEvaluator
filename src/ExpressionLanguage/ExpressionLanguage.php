@@ -6,10 +6,14 @@ namespace Presta\BehatEvaluator\ExpressionLanguage;
 
 use Presta\BehatEvaluator\Foundry\FactoryClassFactory;
 use Psr\Cache\CacheItemPoolInterface;
+use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage as BaseExpressionLanguage;
 
 final class ExpressionLanguage extends BaseExpressionLanguage
 {
+    /**
+     * @param array<ExpressionFunctionProviderInterface> $providers
+     */
     public function __construct(
         FactoryClassFactory $factoryClassFactory,
         string $culture,

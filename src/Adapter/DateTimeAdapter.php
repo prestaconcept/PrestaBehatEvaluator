@@ -46,7 +46,7 @@ final class DateTimeAdapter implements AdapterInterface
             $quotedExpression = \preg_replace_callback(
                 '/(format|intl): ?[^,)]+/',
                 static function (array $matches): string {
-                    $value = \addslashes($matches[0] ?? '');
+                    $value = \addslashes($matches[0]);
 
                     return "\"$value\"";
                 },

@@ -31,7 +31,7 @@ final class ConstantAdapter implements AdapterInterface
 
             // the evaluation did not end up with a transformation
             \preg_match('/constant\([\'"](?<value>[^)]+)[\'"]\)/', $expression, $expressionMatches);
-            if (\is_string($evaluated) && $expressionMatches['value'] === \addslashes($evaluated)) {
+            if (\is_string($evaluated) && ($expressionMatches['value'] ?? '') === \addslashes($evaluated)) {
                 continue;
             }
 
