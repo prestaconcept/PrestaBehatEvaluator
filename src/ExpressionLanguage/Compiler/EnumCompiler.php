@@ -11,7 +11,7 @@ use Presta\BehatEvaluator\ExpressionLanguage\ArgumentGuesser\DateTime\ArgumentGu
  */
 final class EnumCompiler
 {
-    public function __invoke(string $enum, string $property = null): string
+    public function __invoke(string $enum, string|null $property = null): string
     {
         return '';
     }

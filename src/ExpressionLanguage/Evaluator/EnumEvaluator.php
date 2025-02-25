@@ -9,7 +9,7 @@ final class EnumEvaluator
     /**
      * @param array<string, mixed> $arguments
      */
-    public function __invoke(array $arguments, string $enumClass, string $property = null): mixed
+    public function __invoke(array $arguments, string $enumClass, string|null $property = null): mixed
     {
         try {
             $enum = \constant($enumClass);

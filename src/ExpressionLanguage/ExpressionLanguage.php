@@ -13,7 +13,7 @@ final class ExpressionLanguage extends BaseExpressionLanguage
     public function __construct(
         FactoryClassFactory $factoryClassFactory,
         string $culture,
-        CacheItemPoolInterface $cache = null,
+        CacheItemPoolInterface|null $cache = null,
         array $providers = [],
     ) {
         $providers = [
