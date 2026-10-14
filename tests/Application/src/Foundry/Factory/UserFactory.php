@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Presta\BehatEvaluator\Tests\Application\Foundry\Factory;
 
 use Presta\BehatEvaluator\Tests\Application\Entity\User;
-use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
+use Zenstruck\Foundry\Persistence\PersistentObjectFactory;
 
 /**
- * @extends PersistentProxyObjectFactory<User>
+ * @extends PersistentObjectFactory<User>
  */
-final class UserFactory extends PersistentProxyObjectFactory
+final class UserFactory extends PersistentObjectFactory
 {
     public static function class(): string
     {

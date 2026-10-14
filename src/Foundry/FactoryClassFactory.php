@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Presta\BehatEvaluator\Foundry;
 
 use Doctrine\Inflector\Inflector;
-use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
+use Zenstruck\Foundry\Persistence\PersistentObjectFactory;
 
 final class FactoryClassFactory
 {
@@ -25,7 +25,7 @@ final class FactoryClassFactory
         $name = \implode('\\', \array_map($this->inflector->classify(...), \explode('/', $name)));
 
         $factoryClass = "$this->namespace{$name}Factory";
-        if (!\is_a($factoryClass, PersistentProxyObjectFactory::class, true)) {
+        if (!\is_a($factoryClass, PersistentObjectFactory::class, true)) {
             throw new \InvalidArgumentException('You must define a valid factory class.');
         }
 
