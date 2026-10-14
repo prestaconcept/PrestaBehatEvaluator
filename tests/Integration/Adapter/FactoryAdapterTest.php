@@ -13,7 +13,6 @@ use Presta\BehatEvaluator\Tests\Application\Foundry\Factory\UserFactory;
 use Presta\BehatEvaluator\Tests\Integration\KernelTestCase;
 use Presta\BehatEvaluator\Tests\Resources\ExpressionLanguageFactory;
 use Presta\BehatEvaluator\Tests\Resources\UnsupportedValuesProvider;
-use Zenstruck\Foundry\Persistence\Proxy;
 use Zenstruck\Foundry\Test\Factories;
 
 final class FactoryAdapterTest extends KernelTestCase
@@ -63,25 +62,20 @@ final class FactoryAdapterTest extends KernelTestCase
     public static function values(): iterable
     {
         yield 'a string containing only a factory expression with a factory name and an array of attributes'
-        . ' should find and return the relevant object proxy' => [
-            static fn () => UserFactory::find(['firstname' => 'John'])->_disableAutoRefresh(),
+        . ' should find and return the relevant object' => [
+            static fn () => UserFactory::find(['firstname' => 'John']),
             '<factory("user", {"firstname": "John"})>',
         ];
         yield 'a string containing only a factory expression'
         . ' with a factory name, an array of attributes and an accessor'
-        . ' should find and return the relevant object proxy\'s accessible property' => [
+        . ' should find and return the relevant object\'s accessible property' => [
             'John',
             '<factory("user", {"firstname": "John"}, "firstname")>',
         ];
         yield 'a string containing only a factory expression'
         . ' with a factory name, a search method and an array of attributes'
-        . ' should find and return the relevant object proxy(s)' => [
-            static fn () => new ArrayCollection(
-                \array_map(
-                    static fn (Proxy $proxy): object => $proxy->_real(),
-                    UserFactory::findBy(['lastname' => 'Doe']),
-                ),
-            ),
+        . ' should find and return the relevant object(s)' => [
+            static fn () => new ArrayCollection(UserFactory::findBy(['lastname' => 'Doe'])),
             '<factory("user", "findBy", {"lastname": "Doe"})>',
         ];
         yield 'a string containing only a factory expression with a factory name and a non search method'
@@ -90,24 +84,14 @@ final class FactoryAdapterTest extends KernelTestCase
             '<factory("user", "count")>',
         ];
         yield 'a string containing a factory expression with a factory name, the "randomSet" function'
-        . ' and an integer as third parameter should return the relevant object proxy(s)' => [
-            static fn () => new ArrayCollection(
-                \array_map(
-                    static fn (Proxy $proxy): object => $proxy->_real(),
-                    UserFactory::all(),
-                ),
-            ),
+        . ' and an integer as third parameter should return the relevant object(s)' => [
+            static fn () => new ArrayCollection(UserFactory::all()),
             '<factory("user", "randomSet", 2)>',
         ];
         yield 'a string containing a factory expression with a factory name, the "randomSet" function,'
         . ' an integer as third parameter and an array of attributes'
-        . ' should return the relevant object proxy(s)' => [
-            static fn () => new ArrayCollection(
-                \array_map(
-                    static fn (Proxy $proxy): object => $proxy->_real(),
-                    UserFactory::findBy(['firstname' => 'John']),
-                ),
-            ),
+        . ' should return the relevant object(s)' => [
+            static fn () => new ArrayCollection(UserFactory::findBy(['firstname' => 'John'])),
             '<factory("user", "randomSet", 1, {"firstname": "John"})>',
         ];
         yield 'a string containing a factory expression'
@@ -141,7 +125,7 @@ final class FactoryAdapterTest extends KernelTestCase
         ];
         yield 'a string containing a factory expression with a method, attributes and an accessor'
         . ' should throw an exception' => [
-            new UnexpectedTypeException([], Proxy::class),
+            new UnexpectedTypeException([], 'object'),
             '<factory("user", "findBy", {"lastname": "Doe"}, "firstname")>',
         ];
     }
